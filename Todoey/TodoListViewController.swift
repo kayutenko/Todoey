@@ -10,7 +10,7 @@ import UIKit
 
 class TodoListViewController: UITableViewController {
 
-    let itemsArray = ["Learn Swift", "Build your own app", "become an iOS developper", "be happy!"]
+    var itemsArray = ["Learn Swift", "Build your own app", "become an iOS developper", "be happy!"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,15 +35,36 @@ class TodoListViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
+        
 //        Add the check mark when the cell is tapped
         if cell?.accessoryType != .checkmark {
             cell?.accessoryType = .checkmark
         } else if cell?.accessoryType == .checkmark {
             cell?.accessoryType = .none
         }
+        
         tableView.deselectRow(at: indexPath, animated: true)
     }
 
-
+    @IBAction func plusButtonPressed(_ sender: UIBarButtonItem) {
+        let alert = UIAlertController(title: "Add new task?", message: "", preferredStyle: .alert)
+        
+        alert.addTextField { (taskTextField) in
+            taskTextField.placeholder = "Do the shopping..."
+        }
+        
+        let action = UIAlertAction(title: "Add task", style: .default) { (action) in
+            let newTaskText = alert.textFields![0].text
+            self.itemsArray.append(newTaskText!)
+            self.tableView.reloadData()
+        }
+        
+        alert.addAction(action)
+        
+        
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
 }
 
