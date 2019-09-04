@@ -10,11 +10,17 @@ import UIKit
 
 class TodoListViewController: UITableViewController {
 
+    let defaults = UserDefaults.standard
+    
     var itemsArray = ["Learn Swift", "Build your own app", "become an iOS developper", "be happy!"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        if let items = defaults.array(forKey: "TodoListArray") as? [String] {
+            itemsArray = items
+        }
+        
     }
     
     //MARK - Table View Methods
@@ -36,7 +42,7 @@ class TodoListViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
         
-//        Add the check mark when the cell is tapped
+        // Add the check mark when the cell is tapped
         if cell?.accessoryType != .checkmark {
             cell?.accessoryType = .checkmark
         } else if cell?.accessoryType == .checkmark {
@@ -56,12 +62,11 @@ class TodoListViewController: UITableViewController {
         let action = UIAlertAction(title: "Add task", style: .default) { (action) in
             let newTaskText = alert.textFields![0].text
             self.itemsArray.append(newTaskText!)
+            self.defaults.set(self.itemsArray, forKey: "TodoListArray")
             self.tableView.reloadData()
         }
         
         alert.addAction(action)
-        
-        
         
         present(alert, animated: true, completion: nil)
     }
