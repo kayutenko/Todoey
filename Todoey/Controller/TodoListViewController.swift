@@ -7,35 +7,23 @@
 //
 
 import UIKit
+import CoreData
 
 class TodoListViewController: UITableViewController {
 
-    let arrayKey = "TodoListArray"
-    
-    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Tasks.plist")
-    
-//    var tasksArray = [Task(title: "Go shopping"),
-//                      Task(title: "Do the homework"),
-//                      Task(title: "Find will"),
-//                      Task(title: "Kill the demogorgone"),
-//                      Task(title: "Help ell"),
-//                      Task(title: "Dstroy the evil scientists")
-//                      ]
     var tasksArray = [Task]()
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         
-//        if let tasks = defaults.array(forKey: arrayKey) as? [Task] {
-//            tasksArray = tasks
-//        }
         loadData()
     }
     
-    //MARK - Table View Methods
+    // MARK: - Table View Methods
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         
         let task = tasksArray[indexPath.row]
         
@@ -49,10 +37,12 @@ class TodoListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return tasksArray.count
+        
     }
     
-    //MARK - TableView Delegate Methods
+    //MARK: - TableView Delegate Methods
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
@@ -60,8 +50,9 @@ class TodoListViewController: UITableViewController {
         
         task.isDone = !task.isDone
         
-        tableView.reloadData()
-        
+//        context.delete(tasksArray[indexPath.row])
+//        tasksArray.remove(at: indexPath.row)
+//
         tableView.deselectRow(at: indexPath, animated: true)
         
         saveData()
@@ -77,9 +68,12 @@ class TodoListViewController: UITableViewController {
         
         let action = UIAlertAction(title: "Add task", style: .default) { (action) in
             
-            let task = Task(title: alert.textFields![0].text!)
+            let task = Task(context: self.context)
+            task.title = alert.textFields![0].text!
+            task.isDone = false
+            
             self.tasksArray.append(task)
-            self.tableView.reloadData()
+            
             self.saveData()
         }
         
@@ -89,24 +83,22 @@ class TodoListViewController: UITableViewController {
     }
     
     func saveData() {
-        let encoder = PropertyListEncoder()
         do {
-            let data = try encoder.encode(tasksArray)
-            try data.write(to: dataFilePath!)
+            try self.context.save()
         } catch {
-            print("error occurred while writting the data, \(error)")
+            print("Error with saving data, \(error)")
         }
+        tableView.reloadData()
     }
-    
+
     func loadData() {
-        if let data = try? Data(contentsOf: dataFilePath!) {
-            let decoder = PropertyListDecoder()
-            do {
-                try tasksArray = decoder.decode([Task].self, from: data)
-            } catch {
-                print("Error while attempting to read data, \(error)")
-            }
+        let request : NSFetchRequest<Task> = Task.fetchRequest()
+        do {
+            tasksArray = try context.fetch(request)
+        } catch {
+            print("Error with loading data, \(error)")
         }
+        
     }
     
 }
