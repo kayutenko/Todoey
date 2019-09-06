@@ -13,6 +13,7 @@
 		4418A52B232019AA00D846EC /* Todoey.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4418A529232019AA00D846EC /* Todoey.xcdatamodeld */; };
 		4418A52D232019AC00D846EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4418A52C232019AC00D846EC /* Assets.xcassets */; };
 		4418A530232019AC00D846EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4418A52E232019AC00D846EC /* LaunchScreen.storyboard */; };
+		4418A53D23219C6600D846EC /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4418A53C23219C6600D846EC /* CategoriesViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		4418A52C232019AC00D846EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4418A52F232019AC00D846EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4418A531232019AC00D846EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4418A53C23219C6600D846EC /* CategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,8 +78,9 @@
 		4418A53823204DBE00D846EC /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				4418A522232019AA00D846EC /* AppDelegate.swift */,
+				4418A53C23219C6600D846EC /* CategoriesViewController.swift */,
 				4418A524232019AA00D846EC /* TodoListViewController.swift */,
+				4418A522232019AA00D846EC /* AppDelegate.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -164,6 +167,7 @@
 			files = (
 				4418A525232019AA00D846EC /* TodoListViewController.swift in Sources */,
 				4418A523232019AA00D846EC /* AppDelegate.swift in Sources */,
+				4418A53D23219C6600D846EC /* CategoriesViewController.swift in Sources */,
 				4418A52B232019AA00D846EC /* Todoey.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
